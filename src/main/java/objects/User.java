@@ -45,7 +45,7 @@ public class User {
     
     private int userid;
     
-    public int getUserid() {
+    public int getUserId() {
         return userid;
     }
     

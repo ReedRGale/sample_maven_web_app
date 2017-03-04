@@ -158,7 +158,7 @@ public class Model {
             usr.setName(rows.getString("name"));
             usr.setUserId(rows.getInt("userid"));
             usr.setAge(rows.getInt("age"));
-            logger.log(Level.INFO, "Adding user to list with id=" + usr.getUserid());
+            logger.log(Level.INFO, "Adding user to list with id=" + usr.getUserId());
             ll.add(usr);
         }
         return ll.toArray(new User[ll.size()]);
@@ -170,7 +170,7 @@ public class Model {
         sqlQuery.append("update users ");
         sqlQuery.append("set name='" + usr.getName() + "', ");
         sqlQuery.append("age=" + usr.getAge() + " ");
-        sqlQuery.append("where userid=" + usr.getUserid() + ";");
+        sqlQuery.append("where userid=" + usr.getUserId() + ";");
         Statement st = createStatement();
         logger.log(Level.INFO, "UPDATE SQL=" + sqlQuery.toString());
         return st.execute(sqlQuery.toString());

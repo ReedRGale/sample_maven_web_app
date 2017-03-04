@@ -66,7 +66,7 @@ public class UserService {
 //            Model db = Model.singleton();
 //            User[] users = db.getUsers();
 //            for (int i=0;i<users.length;i++)
-//                sb.append("<tr><td>" + users[i].getName() + "</td><td>" + users[i].getAge() + "</td><td>" + users[i].getUserid() + "</td></tr>");
+//                sb.append("<tr><td>" + users[i].getName() + "</td><td>" + users[i].getAge() + "</td><td>" + users[i].getuserid() + "</td></tr>");
 //        }
 //        catch (Exception e)
 //        {
@@ -120,7 +120,7 @@ public class UserService {
         StringBuilder text = new StringBuilder();
         try {
             Model db = Model.singleton();
-            int userid = user.getUserid();
+            int userid = user.getUserId();
             db.updateUser(user);
             logger.log(Level.INFO, "update user with userid=" + userid);
             text.append("User id updated with user id=" + userid + "\n");
@@ -151,7 +151,7 @@ public class UserService {
         StringBuilder text = new StringBuilder();
         try {
             Model db = Model.singleton();
-            int userid = user.getUserid();
+            int userid = user.getUserId();
             db.deleteUser(userid);
             logger.log(Level.INFO, "user deleted from db=" + userid);
             text.append("User id deleted with id=" + userid);
@@ -194,8 +194,8 @@ public class UserService {
         try {
             Model db = Model.singleton();
             User usr = db.newUser(user);
-            logger.log(Level.INFO, "user persisted to db as userid=" + usr.getUserid());
-            text.append("User id persisted with id=" + usr.getUserid());
+            logger.log(Level.INFO, "user persisted to db as userid=" + usr.getUserId());
+            text.append("User id persisted with id=" + usr.getUserId());
             lusers.add(usr);
         }
         catch (SQLException sqle)

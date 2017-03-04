@@ -36,7 +36,7 @@ class ModelSpec extends spock.lang.Specification {
 
       then: "check new user id"
       userid.toString().length() > 0
-      userid.getUserid() > 0
+      userid.getuserid() > 0
       userid.getName().equals("Jake Smith")
       
       notThrown(SQLException)

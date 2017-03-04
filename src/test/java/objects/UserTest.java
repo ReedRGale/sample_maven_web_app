@@ -121,27 +121,27 @@ public class UserTest {
     }
 
     /**
-     * Test of getUserid method, of class User.
+     * Test of getuserid method, of class User.
      */
     @Test
-    public void testGetUserid() {
-        System.out.println("getUserid");
+    public void testGetuserid() {
+        System.out.println("getuserid");
         User instance = new User();
         int expResult = 0;
-        int result = instance.getUserid();
+        int result = instance.getuserid();
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of setUserId method, of class User.
+     * Test of setuserid method, of class User.
      */
     @Test
-    public void testSetUserId() {
-        System.out.println("setUserId");
+    public void testSetuserid() {
+        System.out.println("setuserid");
         int userid = 10;
         User instance = new User();
-        instance.setUserId(userid);
-        int result = instance.getUserid();
+        instance.setuserid(userid);
+        int result = instance.getuserid();
         assertEquals(userid, result);  
     }
     

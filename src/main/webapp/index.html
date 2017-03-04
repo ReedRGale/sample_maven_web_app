@@ -114,9 +114,6 @@
     // renders the user table
     function render(data)  {
       $.each(data, function(index, message) {
-          document.write("Okay we're rendering data apparently...");
-          document.write("Index: " + index);
-          document.write("Message: " + message);
           var newrow = "<tr><td id=\"messageid\"" + index + "\">"+ message.messageId + "</td>";
           newrow += "<td id=\"userid\">" + message.userId + "</td>";
           newrow += "<td id=\"message\">" + message.message + "</td></tr>";
@@ -140,7 +137,7 @@
         });
         document.getElementById("messageid").disabled = false;
         $('#mybody').empty();
-        getusers();
+        getmessages();
     }
     
     // displays a selected user in the form
@@ -151,6 +148,7 @@
             $('#messageid').val(message.messageId);
             $('#userid').val(message.userId);
             $('#message').val(message.message);
+            getmessages();
         });
       else
       {

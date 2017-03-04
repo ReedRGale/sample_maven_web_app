@@ -55,6 +55,9 @@
     $(document).ready(function () { 
         var old_messageid = document.getElementById("messageid").value;
         
+        // get and display users when the form is first loaded
+        getmessages();
+        
         // Get-Data Click function
         //
         // Calls the GET service to lookup a currently entered userid

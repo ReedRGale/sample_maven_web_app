@@ -89,7 +89,7 @@
     // gets and displays users by calling render
     function getmessages() {
         // Form load
-        var url='tcss360/messeges/0';
+        var url='tcss360/messages/0';
         $.ajax({
           type: 'GET',
           url: url,
@@ -145,8 +145,8 @@
       var list = data;
       if (list)
         $.each(list, function(index, message) { 
-            $('#messageid').val(message.messageid);
-            $('#userid').val(message.userid);
+            $('#messageid').val(message.messageId);
+            $('#userid').val(message.userId);
             $('#message').val(message.message);
         });
       else

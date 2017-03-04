@@ -15,7 +15,7 @@ create table users (
 );
 
 create table messages (
-    userid serial primary key,
+    messageid serial primary key,
     userid integer,
     message varchar(255),
     dateadded timestamp

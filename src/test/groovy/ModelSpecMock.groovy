@@ -35,12 +35,12 @@ class MockModelSpec extends spock.lang.Specification {
 
     then: "check new user id"
     userid.toString().length() > 0
-    userid.getuserid() > 0
-    userid.getuserid().equals(1)
+    userid.getUserId() > 0
+    userid.getUserId().equals(1)
     userid.getName().equals("Jake Smith")
     println "\n\n\n\n\n"
     println userid.toString()
-    println userid.getuserid()
+    println userid.getUserId()
     println userid.getName()
     //Model.singleton().deleteUser(userid)  
     

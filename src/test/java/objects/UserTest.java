@@ -125,10 +125,10 @@ public class UserTest {
      */
     @Test
     public void testGetuserid() {
-        System.out.println("getuserid");
+        System.out.println("getUserId");
         User instance = new User();
         int expResult = 0;
-        int result = instance.getuserid();
+        int result = instance.getUserId();
         assertEquals(expResult, result);
     }
 
@@ -137,11 +137,11 @@ public class UserTest {
      */
     @Test
     public void testSetuserid() {
-        System.out.println("setuserid");
+        System.out.println("setUserId");
         int userid = 10;
         User instance = new User();
-        instance.setuserid(userid);
-        int result = instance.getuserid();
+        instance.setUserId(userid);
+        int result = instance.getUserId();
         assertEquals(userid, result);  
     }
     

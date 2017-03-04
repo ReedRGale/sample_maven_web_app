@@ -204,10 +204,11 @@ public class Model {
         return msgId;
     }
     
-    public Message[] getMessages() throws SQLException
+    public Message[] getMessages(int messageId) throws SQLException
     {
         LinkedList<Message> ll = new LinkedList<Message>();
-        String sqlQuery ="select * from messages;";
+        String sqlQuery ="select * from messages";
+        sqlQuery += (messageId > 0) ? " where messageid=" + messageId + " order by messageid;" : " order by message;";
         Statement st = createStatement();
         ResultSet rows = st.executeQuery(sqlQuery);
         while (rows.next())

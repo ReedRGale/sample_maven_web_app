@@ -53,15 +53,15 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>    
     <script language="javascript">
     $(document).ready(function () { 
-        var old_userid = document.getElementById("userid").value;
+        var old_userid = document.getElementById("messageid").value;
         
         // Get-Data Click function
         //
         // Calls the GET service to lookup a currently entered userid
         $('#get-data').click(function () 
         {
-          var userid = document.getElementById("userid");
-          var url='tcss360/users/'+userid.value;
+          var messageid = document.getElementById("messageid");
+          var url='tcss360/messages/'+messageid.value;
           $.ajax({
             type: 'GET',
             url: url,
@@ -69,128 +69,27 @@
             success: render_form
           });        
         });
-        $('#userid').focusin(function () {
+        $('#messageid').focusin(function () {
             old_userid = document.getElementById("userid").value;    
         });
         // If the user exits the userid textbox and places focus on another
         // GUI control on the screen, and if the user id had changed since
         // the user entered the box, then reload the user form
-        $('#userid').focusout(function () {
+        $('#messageid').focusout(function () {
             var curr_userid = document.getElementById("userid").value;    
             //alert(curr_userid + '---' + old_userid)
             if (curr_userid != old_userid)
-                getuser();
+                getmessage();
         });
-        
-        // Delete-User Click function
-        //
-        // Calls the DELETE service to delete the selected user
-        $('#delete-user').click(function ()
-        {
-           var userid = document.getElementById("userid");
-           var username = document.getElementById("name");
-           var user = { 'userid': userid.value };           
-           var url='tcss360/users/';
-           if (confirm('Are you sure - DELETE ' + username.value + '-(' + userid.value + ') ?')) {
-             $.ajax({
-               type: 'DELETE',
-               url: url,
-               datatype: 'json',
-               data: JSON.stringify(user),
-               contentType: 'application/json',
-               success: render_delete
-             }); 
-           } 
-        });
-        
-        // New-User Click function
-        //
-        // Clears the form to allow entry of a new user record
-        $('#new-user').click(function ()
-        {
-           document.getElementById("userid").disabled = true;
-           document.getElementById("name").value = "";
-           document.getElementById("age").value = "";
-        });        
-        // Save-User Click function
-        //
-        // If a new user, calls the POST to create a new user
-        // If an existing user, call the PUT to update the user
-        $('#save-user').click(function ()
-        {
-            if (document.getElementById("userid").disabled)
-            {
-                // Create a new record
-                var username = document.getElementById("name");
-                var age = document.getElementById("age");
-                var user = { 'name': username.value,
-                             'age': age.value };           
-                var url='tcss360/users/';
-                if (confirm('Are you sure - CREATE ' + username.value + ' ?')) {
-                  $.ajax({
-                    type: 'POST',
-                    url: url,
-                    datatype: 'json',
-                    data: JSON.stringify(user),
-                    contentType: 'application/json',
-                    success: render_newuser
-                  }); 
-                }                 
-            }
-            else
-            {
-                // Update an existing record
-                var userid = document.getElementById("userid");
-                var username = document.getElementById("name");
-                var age = document.getElementById("age");
-                var user = { 'userid': userid.value,
-                             'name': username.value,
-                             'age': age.value };           
-                var url='tcss360/users/';
-                if (confirm('Are you sure - UPDATE ' + username.value + ' ?')) {
-                  $.ajax({
-                    type: 'PUT',
-                    url: url,
-                    datatype: 'json',
-                    data: JSON.stringify(user),
-                    contentType: 'application/json',
-                    success: render_clear
-                  }); 
-                }                 
-            }
-        });
-        
-        // Dynamic table event handler
-        // 
-        // Gets the selected user row from the database and puts it
-        // display the user in the form.  Note, technically we could just
-        // read the static table content but this approach would allow
-        // you to read the entire user record including fields which may
-        // not be displayed in the HTML table.
-        // 
-        // Use .text() as td doesn't have method .val()
-        // Empty first time as the td has no text until clicked.
-        $(".table-body").on('click', 'tr', function() {
-            var clicked_userid=$(this).find('td:first').text();
-            old_userid = clicked_userid;
-            var url='tcss360/users/'+clicked_userid;
-             $.ajax({
-               type: 'GET',
-               url: url,
-               datatype: 'json',
-               success: render_form
-             });        
-         });
-         
         
         // get and display users when the form is first loaded
-        getusers();
+        getmesseges();
         
     } );
     // gets and displays users by calling render
-    function getusers() {
+    function getmessages() {
         // Form load
-        var url='tcss360/users/0';
+        var url='tcss360/messeges/0';
         $.ajax({
           type: 'GET',
           url: url,
@@ -200,10 +99,10 @@
     }
     
     // gets and displays users by calling render
-    function getuser() {
+    function getmessage() {
         // Form load
-        var userid = document.getElementById("userid"); 
-        var url='tcss360/users/' + userid.value;
+        var messageid = document.getElementById("messageid"); 
+        var url='tcss360/messages/' + messageid.value;
         $.ajax({
           type: 'GET',
           url: url,
@@ -214,10 +113,11 @@
     
     // renders the user table
     function render(data)  {
-      $.each(data, function(index, user) { 
-          var newrow = "<tr><td id=\"userid\"" + index + "\">"+ user.userid + "</td>";
-          newrow += "<td id=\"name\">" + user.name + "</td>";
-          newrow += "<td id=\"age\">" + user.age + "</td></tr>";
+      $.each(data, function(index, message) { 
+          var newrow = "<tr><td id=\"messageid\"" + index + "\">"+ message.messageId + "</td>";
+          newrow += "<td id=\"userid\">" + message.userId + "</td>";
+          newrow += "<td id=\"message\">" + message.message + "</td></tr>";
+          newrow += "<td id=\"dateadded\">" + message.dateadded + "</td></tr>";
           $('#mybody').append(newrow);
       });
     }
@@ -226,24 +126,16 @@
     function render_clear(data)
     {
         $('#mybody').empty();
-        getusers();
-    }
-    
-    // clears the table, reloads the users, clears the user id textbox
-    function render_delete(data)
-    {
-        $('#mybody').empty();
-        getusers();
-        document.getElementById("userid").value = "";
+        getmessages();
     }
     
     // display the userid of a newly created user as supplied from the service
     function render_newuser(data)
     {
-        $.each(data, function(index, user) { 
-          document.getElementById("userid").value = user.userid;
+        $.each(data, function(index, message) { 
+          document.getElementById("messageid").value = message.userid;
         });
-        document.getElementById("userid").disabled = false;
+        document.getElementById("messageid").disabled = false;
         $('#mybody').empty();
         getusers();
     }
@@ -252,15 +144,16 @@
     function render_form(data)  {
       var list = data;
       if (list)
-        $.each(list, function(index, user) { 
-            $('#userid').val(user.userid);
-            $('#name').val(user.name);
-            $('#age').val(user.age);
+        $.each(list, function(index, message) { 
+            $('#messageid').val(message.messageid);
+            $('#userid').val(message.userid);
+            $('#message').val(message.message);
         });
       else
       {
-        document.getElementById("name").value = "";
-        document.getElementById("age").value = "";
+        document.getElementById("messageid").value = "";
+        document.getElementById("userid").value = "";
+        document.getElementById("message").value = "";
       }
     }    
   </script>
@@ -281,24 +174,25 @@
    </tr>
    <tr>
        <td>Enter Message ID :  </td>
+       <td><input type="text" id="messageid" size="10"/>  
+   </tr>
+   <tr>
+       <td>Enter User ID :  </td>
        <td><input type="text" id="userid" size="10"/>  
    </tr>
    <tr>
-       <td>Enter Message Name :  </td>
-       <td><input type="text" id="name" size="20"/> </td>
-   </tr>
-   <tr>
-       <td>User Age : </td>
-       <td><input type="text" id="age" size="10"/> </td>
+       <td>Enter Message :  </td>
+       <td><input type="text" id="message" size="200"/> </td>
    </tr>
    </table>
    <br>
    <table id="mytable" class="table">
            <thead>
              <tr class="table-header">
+                 <td class="messageid">Message Id</td>
                  <td class="userid">User Id</td>
-                 <td class="name">Name</td>
-                 <td class="age">Age</td>
+                 <td class="name">Message</td>
+                 <td class="dateadded">Date Added</td>
              </tr>               
            </thead>
            <tbody id="mybody" class="table-body">

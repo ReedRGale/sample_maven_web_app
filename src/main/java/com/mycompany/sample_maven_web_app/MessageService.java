@@ -17,13 +17,17 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
+import javax.ws.rs.PathParam;
 import objects.Message;
 import objects.User;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONObject;
 
 /**
  * REST Web Service
@@ -53,25 +57,47 @@ public class MessageService {
      * @return an instance of java.lang.String
      */
     @GET // I think this tells REST this is the get function.
-    @Produces(MediaType.TEXT_HTML) // This specifies the mediatype returns to the client.
-    public String getMessages() 
+    @Path("{messageid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Message> getMessagesJson(@PathParam("messageid") String id) 
     {
-        //TODO return proper representation object
-        StringBuilder sb = new StringBuilder();
-        sb.append("<html><body><style>table, th, td {font-family:Arial,Verdana,sans-serif;font-size:16px;padding: 0px;border-spacing: 0px;}</style><b>MESSAGE LIST:</b><br><br><table cellpadding=10 border=1><tr><td>User ID</td><td>Message</td><td>Date</td><td>Message ID</td></tr>");
+         LinkedList<Message> messageList = new LinkedList<Message>();
+     
         try
         {
+            int messageid = Integer.parseInt(id);
             Model db = Model.singleton();
-            Message[] messages = db.getMessages();
-            for (int i=0;i<messages.length;i++)
-                sb.append("<tr><td>" + messages[i].getUserId() + "</td><td>" + messages[i].getMessage() + "</td><td>" + messages[i].getDateadded() + "</td><td>" + messages[i].getMessageId() + "</td></tr>");
+            Message[] messages = db.getMessages(messageid);
+            if (messageid == 0)
+                for (int i=0;i<messages.length;i++)
+                    messageList.add(messages[i]);
+            else
+                messageList.add(messages[0]);
+            logger.log(Level.INFO, "Received request to fetch user id=" + messageid);
+            return messageList;
         }
         catch (Exception e)
         {
-            sb.append("</table><br>Error getting users: " + e.toString() + "<br>");
+            JSONObject obj = new JSONObject();
+                logger.log(Level.WARNING, "Error getting users:" + e.toString());
+                return null;
         }
-        sb.append("</table></body></html>");
-        return sb.toString();
+//        //TODO return proper representation object
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("<html><body><style>table, th, td {font-family:Arial,Verdana,sans-serif;font-size:16px;padding: 0px;border-spacing: 0px;}</style><b>MESSAGE LIST:</b><br><br><table cellpadding=10 border=1><tr><td>User ID</td><td>Message</td><td>Date</td><td>Message ID</td></tr>");
+//        try
+//        {
+//            Model db = Model.singleton();
+//            Message[] messages = db.getMessages();
+//            for (int i=0;i<messages.length;i++)
+//                sb.append("<tr><td>" + messages[i].getUserId() + "</td><td>" + messages[i].getMessage() + "</td><td>" + messages[i].getDateadded() + "</td><td>" + messages[i].getMessageId() + "</td></tr>");
+//        }
+//        catch (Exception e)
+//        {
+//            sb.append("</table><br>Error getting users: " + e.toString() + "<br>");
+//        }
+//        sb.append("</table></body></html>");
+//        return sb.toString();
     }
 //elegiggl
     /**

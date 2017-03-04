@@ -55,6 +55,9 @@
     $(document).ready(function () { 
         var old_messageid = document.getElementById("messageid").value;
         
+        // get and display users when the form is first loaded
+        getmesseges();
+        
         // Get-Data Click function
         //
         // Calls the GET service to lookup a currently entered userid
@@ -81,10 +84,6 @@
             if (curr_messageid != old_messageid)
                 getmessage();
         });
-        
-        // get and display users when the form is first loaded
-        getmesseges();
-        
     } );
     // gets and displays users by calling render
     function getmessages() {
@@ -116,7 +115,7 @@
       $.each(data, function(index, message) {
           var newrow = "<tr><td id=\"messageid\"" + index + "\">"+ message.messageId + "</td>";
           newrow += "<td id=\"userid\">" + message.userId + "</td>";
-          newrow += "<td id=\"message\">" + message.message + "</td></tr>";
+          newrow += "<td id=\"message\">" + message.message + "</td>";
           newrow += "<td id=\"dateadded\">" + message.dateadded + "</td></tr>";
           $('#mybody').append(newrow);
       });

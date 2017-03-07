@@ -188,13 +188,12 @@
     function render_newuser(data)
     {
         document.getElementById("messageid").disabled = false;
+        $('#mybody').empty();
+        getmessages();
         
         $.each(data, function(index, message) { 
           document.getElementById("messageid").value = message.messageId;
         });
-        
-        $('#mybody').empty();
-        getmessages();
     }
     
     // displays a selected user in the form

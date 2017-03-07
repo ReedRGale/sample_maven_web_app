@@ -104,10 +104,9 @@
             if (document.getElementById("messageid").disabled)
             {
                 // Create a new record
-                var user = document.getElementById("userid");
-                var message = document.getElementById("message");
-                var obj = { 'userid': user.value,
-                            'message': message.value };           
+                var userid = document.getElementById("userid");
+                var messageval = document.getElementById("message");
+                var obj = { 'userId': userid.value, 'message': messageval.value };           
                 var url='tcss360/messages/';
                 if (confirm('Are you sure?')) {
                   $.ajax({
@@ -124,11 +123,10 @@
             {
                 // Update an existing record
                 var messageid = document.getElementById("messageid");
-                var user = document.getElementById("userid");
-                var message = document.getElementById("message");
-                var obj = { 'messageid': messageid.value,
-                            'userid': user.value,
-                            'message': message.value };           
+                var userid = document.getElementById("userid");
+                var messageval = document.getElementById("message");
+                var obj = { 'messageId': messageid.value, 'userId': userid.value, 
+                    'message': messageval.value };           
                 var url='tcss360/messages/';
                 if (confirm('Are you sure?')) {
                   $.ajax({

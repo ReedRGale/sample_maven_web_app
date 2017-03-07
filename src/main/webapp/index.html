@@ -135,7 +135,7 @@
                     datatype: 'json',
                     data: JSON.stringify(obj),
                     contentType: 'application/json',
-                    success: render_newuser
+                    success: render_clear
                   }); 
                 }                    
             }
@@ -187,10 +187,11 @@
     // display the userid of a newly created user as supplied from the service
     function render_newuser(data)
     {
+        document.getElementById("messageid").disabled = false;
+        
         $.each(data, function(index, message) { 
           document.getElementById("messageid").value = message.messageid;
         });
-        document.getElementById("messageid").disabled = false;
         
         $('#mybody').empty();
         getmessages();

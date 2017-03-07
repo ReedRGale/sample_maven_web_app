@@ -84,6 +84,64 @@
             if (curr_messageid != old_messageid)
                 getmessage();
         });
+        
+        // New-Message Click function
+        //
+        // Clears the form to allow entry of a new user record
+        $('#new-message').click(function ()
+        {
+           document.getElementById("messageid").disabled = true;
+           document.getElementById("userid").value = "";
+           document.getElementById("message").value = "";
+        });   
+        
+        // Save-Message Click function
+        //
+        // If a new user, calls the POST to create a new user
+        // If an existing user, call the PUT to update the user
+        $('#save-message').click(function ()
+        {
+            if (document.getElementById("messageid").disabled)
+            {
+                // Create a new record
+                var user = document.getElementById("userid");
+                var message = document.getElementById("message");
+                var obj = { 'userid': user.value,
+                            'message': message.value };           
+                var url='tcss360/messages/';
+                if (confirm('Are you sure?')) {
+                  $.ajax({
+                    type: 'POST',
+                    url: url,
+                    datatype: 'json',
+                    data: JSON.stringify(obj),
+                    contentType: 'application/json',
+                    success: render_newuser
+                  }); 
+                }                 
+            }
+            else
+            {
+                // Update an existing record
+                var messageid = document.getElementById("messageid");
+                var user = document.getElementById("userid");
+                var message = document.getElementById("message");
+                var obj = { 'messageid': messageid.value,
+                            'userid': user.value,
+                            'message': message.value };           
+                var url='tcss360/messages/';
+                if (confirm('Are you sure?')) {
+                  $.ajax({
+                    type: 'POST',
+                    url: url,
+                    datatype: 'json',
+                    data: JSON.stringify(obj),
+                    contentType: 'application/json',
+                    success: render_newuser
+                  }); 
+                }                    
+            }
+        });
     } );
     // gets and displays users by calling render
     function getmessages() {
@@ -132,11 +190,11 @@
     function render_newuser(data)
     {
         $.each(data, function(index, message) { 
-          document.getElementById("messageid").value = message.userid;
+          document.getElementById("messageid").value = message.messageid;
         });
         document.getElementById("messageid").disabled = false;
-        $('#mybody').empty();
-        getmessages();
+        
+        render_clear(null);
     }
     
     // displays a selected user in the form
@@ -182,7 +240,7 @@
    </tr>
    <tr>
        <td>Enter Message :  </td>
-       <td><input type="text" id="message" size="200"/> </td>
+       <td><input type="text" id="message" size="100"/> </td>
    </tr>
    </table>
    <br>

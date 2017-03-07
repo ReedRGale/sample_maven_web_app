@@ -192,7 +192,8 @@
         });
         document.getElementById("messageid").disabled = false;
         
-        render_clear(null);
+        $('#mybody').empty();
+        getmessages();
     }
     
     // displays a selected user in the form

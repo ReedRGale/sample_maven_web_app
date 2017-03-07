@@ -187,11 +187,11 @@
     // display the userid of a newly created user as supplied from the service
     function render_newuser(data)
     {
-        $.each(data, function(index, message) { 
-          document.getElementById("messageid").value = message.messageid;
-        });
-        
         document.getElementById("messageid").disabled = false;
+        
+        $.each(data, function(index, message) { 
+          document.getElementById("messageid").value = message.messageId;
+        });
         
         $('#mybody').empty();
         getmessages();
